@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+</head>
+<body class="container">
+    <h1>Welcome, <%= username %> (Admin)</h1>
+    <a href="/addPortfolio" id="addPortfolioLink" class="btn btn-primary add-portfolio-button">Add Portfolio</a>
+    <a href="/" class="btn btn-primary">Main</a>
+    <h2>Portfolio Items:</h2>
+    <div class="post">
+        <% portfolioItems.forEach(item => { %>
+            <div class="container mt-4">
+                <h3><%= item.name %></h3>
+                <p><%= item.description %></p>
+                <div id="carousel<%= item._id %>" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <% item.images.forEach((image, index) => { %>
+                            <div class="carousel-item<%= index === 0 ? ' active' : '' %>">
+                                <img src="<%= image %>" class="d-block w-100" alt="<%= item.name %> Image">
+                            </div>
+                        <% }) %>
+                    </div>
+                    <a class="carousel-control-prev" href="#carousel<%= item._id %>" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel<%= item._id %>" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <form action="/admin/delete" method="post" class="mt-2">
+                    <input type="hidden" name="id" value="<%= item._id %>">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <form action="/admin/edit" method="post" class="mt-2">
+                    <input type="hidden" name="id" value="<%= item._id %>">
+                    <input type="text" name="name" placeholder="New name" class="form-control mb-2">
+                    <input type="text" name="description" placeholder="New description" class="form-control mb-2">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+            </div>
+        <% }) %>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

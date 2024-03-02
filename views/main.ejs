@@ -1,0 +1,50 @@
+<!-- views/main.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/css/carousel.css" rel="stylesheet">
+</head>
+<body class="container">
+    <% if (typeof username !== 'undefined') { %>
+        <h1 class="welcome-message">Welcome, <%= username %></h1>
+        <a href="/addPortfolio" id="addPortfolioLink" class="btn btn-primary add-portfolio-button">Add Portfolio</a>
+        <a href="/admin" class="btn btn-primary add-portfolio-button">Admin Page</a>
+        <a href="/universities" class="btn btn-primary add-portfolio-button">Universities</a>
+        <a href="/vacancies" class="btn btn-primary add-portfolio-button">Vacancies</a>
+        <a href="/nasa" class="btn btn-primary add-portfolio-button">Space</a>
+    <% } %>
+
+    <% portfolios.forEach(portfolio => { %>
+        <div class="portfolio-item">
+            <h3 class="portfolio-name"><%= portfolio.name %></h3>
+            <p class="portfolio-description"><%= portfolio.description %></p>
+            <!-- Карусель -->
+            <div id="carousel<%= portfolio._id %>" class="carousel slide portfolio-carousel" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <% portfolio.images.forEach((image, index) => { %>
+                        <div class="carousel-item<%= index === 0 ? ' active' : '' %>">
+                            <img src="<%= image %>" class="d-block w-100 portfolio-image" alt="Slide <%= index + 1 %>">
+                        </div>
+                    <% }) %>
+                </div>
+                <!-- Кнопки управления -->
+                <button class="carousel-control-prev portfolio-carousel-prev" type="button" data-bs-target="#carousel<%= portfolio._id %>"  data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next portfolio-carousel-next" type="button" data-bs-target="#carousel<%= portfolio._id %>"  data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    <% }); %>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
